@@ -24,13 +24,13 @@ CLASSIFIERS = [
 
 setuptools.setup(
     name="reflutter",
-    version="0.8.6",
+    version="0.8.6+liqued.1",
     description=SHORT_DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     author="impact",
     author_email="routeros7.1@gmail.com",
-    url="https://github.com/Impact-I/reFlutter",
+    url="https://github.com/liquedgit/reFlutter",
     packages=["reflutter"],
     license="GPLv3+",
     platforms=["any"],

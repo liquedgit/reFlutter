@@ -40,13 +40,18 @@ impact@f:~$ reflutter -n main.apk
 pip3 install reflutter==0.8.6
 ```
 
-To install this fork instead, from a clone of this repository:
+To install this fork instead:
 
 ```
+# straight from git
+pipx install --force git+https://github.com/liquedgit/reFlutter.git
+
+# or from a clone of this repository
 pip3 install .
-# or, for an isolated CLI install
 pipx install --force .
 ```
+
+This fork is versioned `0.8.6+liqued.N` so `pipx list` / `pip show reflutter` distinguishes it from the PyPI `0.8.6` release.
 
 ### Usage
 
