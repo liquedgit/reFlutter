@@ -47,23 +47,23 @@ def _patch_file(file_name: str):
                     zip_stored = True
                 zip_object.extract(file_name, "libappTmp")
                 libapp_arm64 = file_name, utils.elff(join("libappTmp", file_name))
-                libapp_hash = libapp_arm64[1]
+                libapp_hash = libapp_arm64[1] or libapp_hash
             if file_name.endswith("v7a/libapp.so"):
                 if zip_object.getinfo(file_name).compress_type == zipfile.ZIP_STORED:
                     zip_stored = True
                 zip_object.extract(file_name, "libappTmp")
                 libapp_arm = file_name, utils.elff(join("libappTmp", file_name))
-                libapp_hash = libapp_arm[1]
+                libapp_hash = libapp_arm[1] or libapp_hash
             if file_name.endswith("64/libapp.so"):
                 if zip_object.getinfo(file_name).compress_type == zipfile.ZIP_STORED:
                     zip_stored = True
                 zip_object.extract(file_name, "libappTmp")
                 libapp_x64 = file_name, utils.elff(join("libappTmp", file_name))
-                libapp_hash = libapp_x64[1]
+                libapp_hash = libapp_x64[1] or libapp_hash
             if file_name.endswith("86/libflutter.so"):
                 zip_object.extract(file_name, "libappTmp")
                 libapp_x86 = file_name, utils.elff(join("libappTmp", file_name))
-                libapp_hash = libapp_x86[1]
+                libapp_hash = libapp_x86[1] or libapp_hash
         zip_object.close()
         if not libapp_hash:
             # fallback: scan extracted release/ for libapp.so or App binaries

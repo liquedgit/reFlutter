@@ -14,6 +14,19 @@ Key features:
 - contains minor changes for successful compilation;
 - if you would like to implement your own patches, manual Flutter code changes are supported using a specially crafted `Dockerfile`.
 
+### Changes in this fork
+
+Differences from the published PyPI release (`reflutter==0.8.6`), all in `reflutter/__init__.py` and `reflutter/utils.py`:
+
+- **Correct snapshot hash per ABI.** In 0.8.6 the `x86_64` and `x86` branches both assigned the hash from `libapp_arm`, so on a multi-ABI APK the detected snapshot hash could come from the wrong architecture (or be empty), producing a "snapshot hash not found" failure.
+- **Hash is no longer clobbered by a later ABI.** Each branch now assigns with `libapp_hash = libapp_<abi>[1] or libapp_hash`. An architecture whose `elff()` returns nothing — notably `x86/libflutter.so`, which is the engine rather than the snapshot — can no longer wipe a hash already recovered from an earlier architecture.
+- **Fallback scan of the extracted APK/IPA.** If no hash is found while walking the zip entries, the extracted `release/` tree is scanned with `glob` for `libapp.so`, `App.framework/App` and `FlutterApp.framework/FlutterApp`, and the architecture is inferred from the path. This covers archives whose entry names do not match the expected suffixes.
+- **`-n` / `--no-interact`.** Skips the interactive Burp IP prompt and uses `127.0.0.1`. The prompt only applies to older engines (before Flutter 3.24.0); this flag makes the tool usable in scripts and CI.
+
+```console
+impact@f:~$ reflutter -n main.apk
+```
+
 ### Supported engines
 
 - Android: arm64, arm32;
@@ -25,6 +38,14 @@ Key features:
 ```
 # Linux, Windows, MacOS
 pip3 install reflutter==0.8.6
+```
+
+To install this fork instead, from a clone of this repository:
+
+```
+pip3 install .
+# or, for an isolated CLI install
+pipx install --force .
 ```
 
 ### Usage
